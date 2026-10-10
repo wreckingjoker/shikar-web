@@ -434,25 +434,34 @@ export function JourneyTrail() {
                 opacity: 0,
               }}
             >
-              <EventArt event={event} className="absolute inset-0" />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
-              <span
-                className={cn(
-                  'absolute left-4 top-4 font-mono text-sm',
-                  i <= active ? 'text-accent' : 'text-secondary',
-                )}
-              >
-                {pad(i + 1)}
-              </span>
-              <div className="absolute inset-x-4 bottom-4 text-left">
-                <p className="font-display text-xs uppercase tracking-[0.25em] text-accent">
-                  {event.journeyWord}
-                </p>
-                <p className="mt-1 font-display text-lg uppercase leading-tight tracking-[0.08em] text-primary">
-                  {event.name}
-                </p>
-                <p className="mt-1 text-xs text-secondary">{event.type}</p>
-              </div>
+              {/* Real art (e.g. the-visionary) has its own frame + title baked in, so the
+                  number/title overlay is only drawn on the placeholder. */}
+              <EventArt
+                event={event}
+                className="absolute inset-0"
+                placeholderOverlay={
+                  <>
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
+                    <span
+                      className={cn(
+                        'absolute left-4 top-4 font-mono text-sm',
+                        i <= active ? 'text-accent' : 'text-secondary',
+                      )}
+                    >
+                      {pad(i + 1)}
+                    </span>
+                    <div className="absolute inset-x-4 bottom-4 text-left">
+                      <p className="font-display text-xs uppercase tracking-[0.25em] text-accent">
+                        {event.journeyWord}
+                      </p>
+                      <p className="mt-1 font-display text-lg uppercase leading-tight tracking-[0.08em] text-primary">
+                        {event.name}
+                      </p>
+                      <p className="mt-1 text-xs text-secondary">{event.type}</p>
+                    </div>
+                  </>
+                }
+              />
             </div>
           ))}
         </div>
