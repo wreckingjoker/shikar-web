@@ -1,0 +1,12 @@
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.local
+.DS_Store
+*.log
+*.tsbuildinfo
+
+# Source deck is ~80 MB (Claude.md §15: never ship it) — keep it local / in Drive
+shikar-management-fest-guidelines/*.pdf
