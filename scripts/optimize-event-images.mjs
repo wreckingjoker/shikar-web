@@ -1,8 +1,9 @@
 /**
  * Compress event art into public/img/events/<slug>.avif + .webp (Claude.md §8: AVIF/WebP,
  * ~150 KB each). Drop the source into shikar-management-fest-guidelines/ named after the
- * event, with or without the leading "the" (visionary.jpg, the-visionary.png, The Voice.jpg),
- * then run:  npm run images:events
+ * event name, with or without the leading "the" (visionary.jpg, The Voice.jpg), or after
+ * the event type, with or without "game" (operations.jpeg, finance-game.png), then run:
+ *   npm run images:events
  */
 import { mkdirSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { extname, join } from 'node:path';
@@ -18,14 +19,24 @@ mkdirSync(OUT_DIR, { recursive: true });
 
 const kb = (path) => `${Math.round(statSync(path).size / 1024)} KB`;
 // "The Voice.jpg", "the_voice.png", "voice.jpg" all normalise to match slug "the-voice"
-const normalise = (name) => name.toLowerCase().trim().replace(/[\s_]+/g, '-');
+const normalise = (name) =>
+  name
+    .toLowerCase()
+    .trim()
+    .replace(/[\s_]+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
 const sources = readdirSync(SRC_DIR)
   .filter((f) => EXTS.includes(extname(f).slice(1).toLowerCase()))
   .map((f) => ({ path: join(SRC_DIR, f), key: normalise(f.slice(0, -extname(f).length)) }));
 let done = 0;
 
-for (const { slug } of events) {
-  const names = [slug, slug.replace(/^the-/, '')];
+for (const { slug, type } of events) {
+  const typeKey = normalise(type ?? '');
+  const names = [slug, slug.replace(/^the-/, ''), typeKey, typeKey.replace(/-game$/, '')].filter(
+    Boolean,
+  );
   const src = sources.find((s) => names.includes(s.key))?.path;
   if (!src) continue;
 

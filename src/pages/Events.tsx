@@ -4,6 +4,7 @@ import type { FestEvent } from '@/types/event';
 import { EventCard } from '@/components/events/EventCard';
 import { EventFilterChips, type EventFilter } from '@/components/events/EventFilterChips';
 import { EventSheet } from '@/components/events/EventSheet';
+import { EventDeck } from '@/components/events/EventDeck';
 
 const events = eventsData as FestEvent[];
 const management = events.filter((e) => e.category === 'management');
@@ -58,13 +59,8 @@ export default function Events() {
           <h2 className="font-display text-xs uppercase tracking-[0.2em] text-secondary">
             Non-management
           </h2>
-          {/* Horizontal swipe row, CSS scroll-snap — Claude.md §6.5 */}
-          <div className="-mx-4 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:-mx-8 md:px-8">
-            {nonManagement.map((event) => (
-              <div key={event.slug} className="w-[220px] shrink-0 snap-start">
-                <EventTrigger event={event} onSelect={setSelectedSlug} />
-              </div>
-            ))}
+          <div className="mt-4">
+            <EventDeck events={nonManagement} onSelect={setSelectedSlug} />
           </div>
         </section>
       )}

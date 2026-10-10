@@ -4,11 +4,10 @@
  * codebase should hardcode them.
  */
 
-// TODO(open-item): fest dates not yet confirmed. Placeholder keeps the countdown/schedule
-// functional end-to-end; replace with the real start date the moment it's locked.
-export const FEST_START_ISO = '2026-02-20T09:00:00+05:30';
-export const FEST_END_ISO = '2026-02-22T18:00:00+05:30';
-export const FEST_DATES_CONFIRMED = false;
+// Confirmed: SHIKHAR 2026 runs 20–21 November 2026, Kochi (IST, UTC+05:30).
+export const FEST_START_ISO = '2026-11-20T09:00:00+05:30';
+export const FEST_END_ISO = '2026-11-21T18:00:00+05:30';
+export const FEST_DATES_CONFIRMED = true;
 
 export const FEST_VENUE = 'SCMS Business School, Prathap Nagar, Muttom, Kochi';
 export const FEST_VENUE_CONFIRMED = false;

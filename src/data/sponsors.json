@@ -1,3 +1,12 @@
 {
-  "tiers": []
+  "tiers": [
+    {
+      "tier": "Sample Partners",
+      "sponsors": [
+        { "name": "Sample Sponsor 1", "logo": "/img/sponsors/sponsor-sample1.webp" },
+        { "name": "Sample Sponsor 2", "logo": "/img/sponsors/sponsor-sample2.webp" },
+        { "name": "Sample Sponsor 3", "logo": "/img/sponsors/sponsor-sample3.webp" }
+      ]
+    }
+  ]
 }

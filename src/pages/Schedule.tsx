@@ -2,12 +2,17 @@ import scheduleData from '@/data/schedule.json';
 import type { Schedule } from '@/types/event';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { GoldDivider } from '@/components/ui/divider';
+import { Countdown } from '@/components/sections/Countdown';
 
 const schedule = scheduleData as Schedule;
 
 export default function SchedulePage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 pb-16 pt-24 md:px-8">
+    <>
+      <div className="pt-24">
+        <Countdown />
+      </div>
+      <div className="mx-auto max-w-3xl px-4 pb-16 pt-10 md:px-8">
       <p className="font-display text-sm tracking-[0.3em] text-accent">DAY BY DAY</p>
       <h1 className="mt-3 text-2xl md:text-2xl-d">Schedule</h1>
       <GoldDivider className="mt-5" />
@@ -28,6 +33,11 @@ export default function SchedulePage() {
           </TabsList>
           {schedule.days.map((day) => (
             <TabsContent key={day.date} value={day.date}>
+              {day.slots.length === 0 ? (
+                <p className="py-8 text-center text-secondary">
+                  Timings for this day are still being finalised.
+                </p>
+              ) : (
               <ul className="divide-y divide-border">
                 {day.slots.map((slot) => (
                   <li key={`${day.date}-${slot.time}`} className="flex items-center gap-4 py-3">
@@ -46,10 +56,12 @@ export default function SchedulePage() {
                   </li>
                 ))}
               </ul>
+              )}
             </TabsContent>
           ))}
         </Tabs>
       )}
-    </div>
+      </div>
+    </>
   );
 }

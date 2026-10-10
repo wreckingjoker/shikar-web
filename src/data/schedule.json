@@ -1,4 +1,15 @@
 {
-  "confirmed": false,
-  "days": []
+  "confirmed": true,
+  "days": [
+    {
+      "date": "2026-11-20",
+      "label": "Day 1 · Nov 20",
+      "slots": []
+    },
+    {
+      "date": "2026-11-21",
+      "label": "Day 2 · Nov 21",
+      "slots": []
+    }
+  ]
 }
