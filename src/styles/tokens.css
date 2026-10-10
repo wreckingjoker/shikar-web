@@ -14,17 +14,42 @@
   --color-silver: #c4ccd6;
   --color-logo-red: #c0141b;
 
+  /*
+    Space-separated RGB triplets for every color Tailwind wraps in
+    `rgb(var(--x-rgb) / <alpha-value>)` (tailwind.config.ts `token()`) — the documented
+    Tailwind pattern for opacity-modifier support (`bg-ink/55`, `text-silver/85`, …).
+    An earlier version used `color-mix()` for this instead: color-mix() is a 2023-era
+    function, and on anything rendering it without support, `background-color: color-mix(...)`
+    is invalid and gets dropped entirely — e.g. the primary button's bg-accent/text-on-accent
+    silently vanished (transparent bg, "Register now" unreadable) while plain-gradient text
+    like .text-metallic-gold kept working fine. rgb()-with-slash-alpha needs far less.
+  */
+  --color-ink-rgb: 18 19 22;
+  --color-charcoal-rgb: 48 50 56;
+  --color-sand-rgb: 216 200 184;
+  --color-mustard-rgb: 181 154 68;
+  --color-bronze-rgb: 167 115 66;
+  --color-deep-blue-rgb: 11 28 53;
+  --color-silver-rgb: 196 204 214;
+  --color-logo-red-rgb: 192 20 27;
+
   /* Semantic */
   --color-bg: var(--color-ink);
+  --color-bg-rgb: var(--color-ink-rgb);
   --color-surface: var(--color-charcoal);
+  --color-surface-rgb: var(--color-charcoal-rgb);
   --color-surface-raised: #35373d; /* charcoal + ~6% sand overlay */
   --color-text-primary: var(--color-sand);
+  --color-text-primary-rgb: var(--color-sand-rgb);
   --color-text-secondary: rgba(216, 200, 184, 0.7);
   --color-text-on-accent: var(--color-ink);
+  --color-text-on-accent-rgb: var(--color-ink-rgb);
   --color-accent: var(--color-mustard);
+  --color-accent-rgb: var(--color-mustard-rgb);
   --color-border: rgba(216, 200, 184, 0.14);
   --color-focus: var(--color-mustard);
   --color-live: var(--color-logo-red);
+  --color-live-rgb: var(--color-logo-red-rgb);
   --color-success: #6e9c6a;
   --color-error: #c25a45;
 }

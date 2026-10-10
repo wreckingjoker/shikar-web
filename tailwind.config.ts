@@ -2,11 +2,16 @@ import type { Config } from 'tailwindcss';
 
 /**
  * Plain `var(--x)` colours make Tailwind silently drop opacity modifiers (`bg-ink/55` is
- * never generated). color-mix with <alpha-value> keeps the CSS-variable tokens and makes
- * `/NN` work; with no modifier <alpha-value> is 1, i.e. the exact token colour.
+ * never generated). `rgb(var(--x-rgb) / <alpha-value>)` is Tailwind's own documented
+ * pattern for this — `--x-rgb` holds a space-separated "R G B" triplet (see tokens.css) —
+ * and only needs the rgb-slash-alpha syntax, supported since ~2018. An earlier version
+ * used `color-mix()` instead, which is a 2023-era function; anywhere that doesn't support
+ * it, the whole `background-color: color-mix(...)` declaration is invalid and dropped,
+ * which silently broke bg-accent/text-on-accent (the primary CTA button had no visible
+ * background or text at all). Only colours with a matching `--x-rgb` variable can use this.
  */
-const token = (name: string) =>
-  `color-mix(in srgb, var(${name}) calc(<alpha-value> * 100%), transparent)`;
+const token = (name: string) => `rgb(var(${name}-rgb) / <alpha-value>)`;
+const plainToken = (name: string) => `var(${name})`;
 
 export default {
   darkMode: 'class',
@@ -30,14 +35,20 @@ export default {
         'logo-red': token('--color-logo-red'),
         bg: token('--color-bg'),
         surface: token('--color-surface'),
-        'surface-raised': token('--color-surface-raised'),
-        border: token('--color-border'),
-        success: token('--color-success'),
-        error: token('--color-error'),
+        'surface-raised': plainToken('--color-surface-raised'),
+        border: plainToken('--color-border'),
+        success: plainToken('--color-success'),
+        error: plainToken('--color-error'),
+        // Semantic aliases — `accent`/`live` are used all over (bg-accent, text-accent,
+        // border-accent, bg-live) but were never registered here, so Tailwind silently
+        // never generated those classes: the mustard CTA/"Register now" button had no
+        // background or border at all, just invisible dark text on a transparent box.
+        accent: token('--color-accent'),
+        live: token('--color-live'),
       },
       textColor: {
         primary: token('--color-text-primary'),
-        secondary: token('--color-text-secondary'),
+        secondary: plainToken('--color-text-secondary'),
         'on-accent': token('--color-text-on-accent'),
       },
       fontFamily: {
