@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { MousePointerClick } from 'lucide-react';
 import eventsData from '@/data/events.json';
 import type { FestEvent } from '@/types/event';
 import { EventCard } from '@/components/events/EventCard';
@@ -46,6 +47,10 @@ export default function Events() {
           <h2 className="font-display text-xs uppercase tracking-[0.2em] text-secondary">
             Management
           </h2>
+          <p className="mt-3 inline-flex items-center gap-2 rounded-pill border border-mustard/40 bg-mustard/10 px-3 py-1 text-xs text-accent">
+            <MousePointerClick aria-hidden="true" size={14} strokeWidth={1.75} />
+            Tap any event card to open its details
+          </p>
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {managementGrid.map((event) => (
               <EventTrigger key={event.slug} event={event} onSelect={setSelectedSlug} />

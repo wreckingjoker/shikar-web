@@ -1,35 +1,31 @@
 /**
- * Event deck spread — non-management events (Claude.md §6.5).
- * Motion adapted from "Card Deck Spread" (Framer:
- * https://framer.com/m/CardDeckSpread-i9eD.js@Gk6fOPV6EhlGClhOxXwt) — re-implemented, not
- * copied: on pointer devices the deck rests closed and opens on hover (touch: on first
- * view); the "lifted" card comes forward
- * while the rest blur (desktop) or dim (touch). Touch has no hover, so the first tap lifts
- * a card and the second opens it; keyboard focus lifts, Enter opens. The spread width is
- * measured, so the whole deck always fits with no horizontal scroll.
+ * Event deck — non-management events (Claude.md §6.5) as a draggable 3D coverflow.
+ * Adapted from Framer "DragableCarousel"
+ * (https://framer.com/m/DragableCarousel-ADAPEh.js@fXOJxTG2NAtXIGjIOPmn) — re-implemented,
+ * not copied, "Default" preset: the active card sits centred and flat; neighbours tilt
+ * (rotateY 45°/step), sink (translateZ −150px/step), shrink to 0.85 and fade to 0.45.
+ * Drag follows the pointer 1:1, release projects velocity 120ms ahead and snaps to the
+ * nearest card (0.6s ease-out). Arrows/dots wrap. Transforms are written straight to the
+ * DOM per frame (no React re-render while dragging). `touch-action: pan-y` keeps vertical
+ * page scroll native on phones (§9: no scroll-jacking). Reduced motion → instant snaps.
+ * Tap a side card to bring it to the centre; tap the centre card for details.
  */
-import { useEffect, useRef, useState } from 'react';
-import { useReducedMotion } from 'motion/react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { animate, useReducedMotion, type AnimationPlaybackControls } from 'motion/react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { FestEvent } from '@/types/event';
 import { EventArt } from './EventArt';
 import { cn } from '@/lib/utils';
 
-const EASE = 'cubic-bezier(0.25, 0.8, 0.25, 1)';
-const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+const GAP = 16;
+const ROTATE = 45; // deg per step from centre
+const DEPTH = 150; // px per step
+const SIDE_SCALE = 0.85;
+const SIDE_OPACITY = 0.45;
+const SNAP_EASE = [0.165, 0.84, 0.44, 1] as const; // ≈ GSAP power3.out
+const DRAG_THRESHOLD = 6;
 
-function useMediaQuery(query: string) {
-  const [matches, setMatches] = useState(() =>
-    typeof window === 'undefined' ? false : window.matchMedia(query).matches,
-  );
-  useEffect(() => {
-    const mql = window.matchMedia(query);
-    const onChange = () => setMatches(mql.matches);
-    onChange();
-    mql.addEventListener('change', onChange);
-    return () => mql.removeEventListener('change', onChange);
-  }, [query]);
-  return matches;
-}
+const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
 
 interface EventDeckProps {
   events: FestEvent[];
@@ -38,187 +34,191 @@ interface EventDeckProps {
 
 export function EventDeck({ events, onSelect }: EventDeckProps) {
   const reduceMotion = useReducedMotion();
-  const canHover = useMediaQuery('(hover: hover) and (pointer: fine)');
-  const containerRef = useRef<HTMLDivElement>(null);
-  const pointerTypeRef = useRef('mouse');
+  const n = events.length;
+  const rootRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [width, setWidth] = useState(0);
-  const [entered, setEntered] = useState(false);
-  const [hovering, setHovering] = useState(false);
-  const [active, setActive] = useState<number | null>(null);
-  const [inView, setInView] = useState(false);
-  const pausedUntilRef = useRef(0);
+  const [index, setIndex] = useState(() => Math.floor((n - 1) / 2));
+  const indexRef = useRef(index);
+  const xRef = useRef(0);
+  const animRef = useRef<AnimationPlaybackControls | null>(null);
+  const dragRef = useRef<{
+    startX: number;
+    startTrack: number;
+    lastX: number;
+    lastT: number;
+    v: number;
+    moved: boolean;
+  } | null>(null);
+  const suppressClickRef = useRef(false);
+
+  const cardW = width >= 768 ? 240 : clamp(Math.round(width * 0.58), 160, 240);
+  const cardH = Math.round((cardW * 4) / 3);
+  const step = cardW + GAP;
+  const centerX = useCallback((i: number) => width / 2 - i * step - cardW / 2, [width, step, cardW]);
+
+  const apply = useCallback(
+    (tx: number) => {
+      xRef.current = tx;
+      if (trackRef.current) trackRef.current.style.transform = `translate3d(${tx}px,0,0)`;
+      cardRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const norm = (i * step + cardW / 2 + tx - width / 2) / step;
+        const abs = Math.abs(norm);
+        const rotate = clamp(norm * ROTATE, -70, 70);
+        const scale = Math.max(SIDE_SCALE, 1 - abs * (1 - SIDE_SCALE));
+        el.style.transform = `perspective(1000px) rotateY(${rotate}deg) translateZ(${-abs * DEPTH}px) scale(${scale})`;
+        el.style.opacity = String(Math.max(SIDE_OPACITY, 1 - abs * (1 - SIDE_OPACITY)));
+        el.style.zIndex = String(100 - Math.round(abs * 10));
+      });
+    },
+    [width, step, cardW],
+  );
+
+  const goTo = useCallback(
+    (target: number, wrap = false) => {
+      const i = wrap ? ((target % n) + n) % n : clamp(target, 0, n - 1);
+      indexRef.current = i;
+      setIndex(i);
+      animRef.current?.stop();
+      if (reduceMotion) {
+        apply(centerX(i));
+        return;
+      }
+      animRef.current = animate(xRef.current, centerX(i), {
+        duration: 0.6,
+        ease: SNAP_EASE,
+        onUpdate: apply,
+      });
+    },
+    [n, reduceMotion, apply, centerX],
+  );
 
   useEffect(() => {
-    const el = containerRef.current;
+    const el = rootRef.current;
     if (!el) return;
     const ro = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
 
-  // Touch: fan out the first time the deck scrolls into view (no hover to open it).
-  // Visibility is tracked continuously so auto-play only runs while the deck is on screen.
-  useEffect(() => {
-    if (reduceMotion) setEntered(true);
-    const el = containerRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        setInView(entry.isIntersecting);
-        if (entry.isIntersecting) setEntered(true);
-      },
-      { threshold: 0.2 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [reduceMotion]);
+  // Re-centre on resize (and first measure) without animating.
+  useLayoutEffect(() => {
+    if (!width) return;
+    animRef.current?.stop();
+    apply(centerX(indexRef.current));
+  }, [width, apply, centerX]);
 
-  const n = events.length;
-  const cardW = width > 0 && width < 480 ? 168 : 220;
-  const cardH = Math.round((cardW * 4) / 3);
-  const overlap = n > 1 ? clamp((width - cardW) / (n - 1), 28, cardW * 0.8) : 0;
-  const totalW = cardW + (n - 1) * overlap;
+  useEffect(() => () => animRef.current?.stop(), []);
 
-  // Hover to open: on pointer devices the deck rests closed and fans open while hovered
-  // (or while a card has keyboard focus); touch opens on first view instead.
-  const open = canHover ? hovering : entered;
-  const CLOSED_GAP = 12;
-  const closedLeft = (totalW - (cardW + (n - 1) * CLOSED_GAP)) / 2;
-  const mid = (n - 1) / 2;
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (e.button !== 0) return;
+    animRef.current?.stop();
+    dragRef.current = {
+      startX: e.clientX,
+      startTrack: xRef.current,
+      lastX: e.clientX,
+      lastT: performance.now(),
+      v: 0,
+      moved: false,
+    };
 
-  // Auto-play (touch only — the cards overlap too tightly to see on a phone): every few
-  // seconds the next card slides out to the front, so every event gets seen. Pauses while
-  // the user is interacting, off-screen, in a hidden tab, and never runs for reduced motion.
-  const autoplay = !canHover && open && inView && !reduceMotion && n > 1;
-  useEffect(() => {
-    if (!autoplay) return;
-    const id = window.setInterval(() => {
-      if (document.hidden || Date.now() < pausedUntilRef.current) return;
-      setActive((prev) => (prev === null ? 0 : (prev + 1) % n));
-    }, 2600);
-    return () => window.clearInterval(id);
-  }, [autoplay, n]);
-
-  const onCardClick = (i: number, slug: string) => {
-    pausedUntilRef.current = Date.now() + 6000;
-    // Touch: first tap lifts the card, second tap opens it.
-    if (pointerTypeRef.current === 'touch' && active !== i) {
-      setActive(i);
-      return;
-    }
-    onSelect(slug);
+    const onMove = (ev: PointerEvent) => {
+      const d = dragRef.current;
+      if (!d) return;
+      const dx = ev.clientX - d.startX;
+      if (Math.abs(dx) > DRAG_THRESHOLD) d.moved = true;
+      const now = performance.now();
+      const dt = now - d.lastT;
+      if (dt > 0) d.v = ((ev.clientX - d.lastX) / dt) * 1000;
+      d.lastX = ev.clientX;
+      d.lastT = now;
+      apply(d.startTrack + dx);
+    };
+    const onUp = () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('pointercancel', onUp);
+      const d = dragRef.current;
+      dragRef.current = null;
+      if (!d) return;
+      if (!d.moved) {
+        // plain tap — let the card's click handler decide; just settle back if nudged
+        if (xRef.current !== centerX(indexRef.current)) goTo(indexRef.current);
+        return;
+      }
+      suppressClickRef.current = true;
+      const projected = xRef.current + d.v * 0.12;
+      goTo(Math.round((width / 2 - cardW / 2 - projected) / step));
+    };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onUp);
   };
 
+  const onCardClick = (i: number, slug: string) => {
+    if (suppressClickRef.current) {
+      suppressClickRef.current = false;
+      return;
+    }
+    if (i === indexRef.current) onSelect(slug);
+    else goTo(i);
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    e.preventDefault();
+    const next = clamp(indexRef.current + (e.key === 'ArrowRight' ? 1 : -1), 0, n - 1);
+    goTo(next);
+    cardRefs.current[next]?.focus({ preventScroll: true });
+  };
+
+  const arrowClass =
+    'absolute top-1/2 z-[200] flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-mustard/60 bg-charcoal/80 text-sand shadow-[0_4px_16px_rgba(0,0,0,0.5)] backdrop-blur-sm transition-colors duration-base ease-sand hover:border-mustard hover:text-mustard focus-visible:border-mustard';
+
   return (
-    <div>
+    <div role="region" aria-roledescription="carousel" aria-label="Non-management events">
       <div
-        ref={containerRef}
-        className="relative w-full pt-[20px]"
-        style={{ height: cardH + 40 }}
-        onKeyDownCapture={() => {
-          pointerTypeRef.current = 'keyboard';
-        }}
-        onFocus={() => {
-          if (pointerTypeRef.current !== 'touch') setHovering(true);
-        }}
-        onBlur={(e) => {
-          if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
-            setHovering(false);
-            setActive(null);
-          }
-        }}
+        ref={rootRef}
+        className={cn(
+          'relative w-full cursor-grab select-none overflow-hidden active:cursor-grabbing',
+          !width && 'opacity-0',
+        )}
+        style={{ height: cardH + 48, touchAction: 'pan-y' }}
+        onPointerDown={onPointerDown}
+        onKeyDown={onKeyDown}
+        onDragStart={(e) => e.preventDefault()}
       >
         <div
-          className="relative mx-auto"
-          style={{ width: totalW, height: cardH }}
-          onPointerEnter={(e) => {
-            if (e.pointerType === 'mouse') setHovering(true);
-          }}
-          onMouseLeave={() => {
-            setHovering(false);
-            setActive(null);
-          }}
+          ref={trackRef}
+          className="absolute left-0 top-6 flex will-change-transform"
+          style={{ gap: GAP }}
         >
           {events.map((event, i) => {
-            const isActive = open && active === i;
-            const dimmed = open && active !== null && !isActive;
-            // Closed: a tight fanned deck (slight rotation + arc). Open: full spread.
-            const left = open ? i * overlap : closedLeft + i * CLOSED_GAP;
-            const top = open ? 0 : Math.abs(i - mid) * 3;
-            const rotate = open ? 0 : (i - mid) * 3;
-            // Open left→right, close right→left.
-            const delay = open ? i * 0.06 : (n - 1 - i) * 0.03;
-
+            const isActive = i === index;
             return (
               <button
                 key={event.slug}
+                ref={(el) => {
+                  cardRefs.current[i] = el;
+                }}
                 type="button"
-                aria-haspopup="dialog"
-                aria-label={`${event.name} — ${event.type}`}
-                onPointerDown={(e) => {
-                  pointerTypeRef.current = e.pointerType;
-                }}
-                // Touch fires focus + compat mouse events *before* click, which would lift
-                // and open on the same tap — so only real mouse/keyboard lift here.
-                onPointerEnter={(e) => {
-                  if (e.pointerType === 'mouse') setActive(i);
-                }}
-                onFocus={() => {
-                  if (pointerTypeRef.current !== 'touch') setActive(i);
-                }}
+                tabIndex={isActive ? 0 : -1}
+                aria-haspopup={isActive ? 'dialog' : undefined}
+                aria-label={`${event.name} — ${event.type}${isActive ? '' : ' (bring to front)'}`}
+                aria-current={isActive || undefined}
                 onClick={() => onCardClick(i, event.slug)}
                 className={cn(
-                  'absolute overflow-hidden rounded-md border bg-charcoal text-left',
+                  'relative shrink-0 overflow-hidden rounded-md border bg-charcoal text-left shadow-[0_4px_24px_rgba(0,0,0,0.5)] transition-[border-color,box-shadow] duration-base ease-sand',
                   isActive ? 'border-mustard shadow-glow' : 'border-border',
                 )}
-                style={{
-                  left,
-                  top,
-                  width: cardW,
-                  height: cardH,
-                  zIndex: n - i + (isActive ? 100 : 0),
-                  transform: isActive
-                    ? canHover
-                      ? 'translateY(-12px) scale(1.06)'
-                      : // touch: slide sideways toward the centre of the deck as it lifts
-                        `translateX(${((totalW - cardW) / 2 - left) * 0.5}px) translateY(-12px) scale(1.04)`
-                    : rotate
-                      ? `rotate(${rotate}deg)`
-                      : 'none',
-                  transformOrigin: '50% 100%',
-                  filter: dimmed && canHover ? 'blur(2px)' : 'none',
-                  opacity: dimmed && !canHover ? 0.55 : 1,
-                  boxShadow: isActive ? undefined : '0 4px 24px rgba(0,0,0,0.5)',
-                  transition: reduceMotion
-                    ? 'none'
-                    : [
-                        `left 0.7s ${EASE} ${delay}s`,
-                        `top 0.7s ${EASE} ${delay}s`,
-                        `transform ${isActive ? 0.3 : 0.4}s ${EASE}`,
-                        `filter ${isActive ? 0.3 : 0.4}s ${EASE}`,
-                        `opacity 0.3s ${EASE}`,
-                      ].join(', '),
-                }}
+                style={{ width: cardW, height: cardH }}
               >
-                <EventArt
-                  event={event}
-                  className="absolute inset-0"
-                  placeholderOverlay={
-                    <>
-                      <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-transparent to-transparent" />
-                      <p className="absolute inset-x-3 bottom-3 font-display text-sm uppercase leading-tight tracking-[0.08em] text-primary">
-                        {event.name}
-                      </p>
-                    </>
-                  }
-                />
-                {/* Details bar — revealed on the lifted card */}
+                <EventArt event={event} className="pointer-events-none absolute inset-0" />
                 <div
                   aria-hidden="true"
-                  className={cn(
-                    'absolute inset-x-0 bottom-0 bg-ink/85 px-3 pb-3 pt-2 backdrop-blur-sm transition-opacity duration-base ease-sand',
-                    isActive ? 'opacity-100' : 'opacity-0',
-                  )}
+                  className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink via-ink/85 to-transparent px-3 pb-3 pt-8"
                 >
                   <p className="font-display text-sm uppercase leading-tight tracking-[0.08em] text-primary">
                     {event.name}
@@ -230,14 +230,48 @@ export function EventDeck({ events, onSelect }: EventDeckProps) {
             );
           })}
         </div>
+
+        <button
+          type="button"
+          aria-label="Previous event"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={() => goTo(index - 1, true)}
+          className={cn(arrowClass, 'left-1 md:left-3')}
+        >
+          <ChevronLeft className="h-5 w-5" strokeWidth={2.5} />
+        </button>
+        <button
+          type="button"
+          aria-label="Next event"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={() => goTo(index + 1, true)}
+          className={cn(arrowClass, 'right-1 md:right-3')}
+        >
+          <ChevronRight className="h-5 w-5" strokeWidth={2.5} />
+        </button>
       </div>
-      <p
-        className={cn(
-          'mt-3 text-center text-xs text-secondary transition-opacity duration-base ease-sand',
-          canHover && open ? 'opacity-0' : 'opacity-100',
-        )}
-      >
-        {canHover ? 'Hover to open the deck' : 'Tap a card to lift it · tap again for details'}
+
+      <div className="mt-1 flex justify-center">
+        {events.map((event, i) => (
+          <button
+            key={event.slug}
+            type="button"
+            aria-label={`Go to ${event.name}`}
+            aria-current={i === index || undefined}
+            onClick={() => goTo(i)}
+            className="flex h-11 w-6 items-center justify-center"
+          >
+            <span
+              className={cn(
+                'h-2 w-2 rounded-full bg-mustard transition-[opacity,transform] duration-base ease-sand',
+                i === index ? 'scale-[1.4] opacity-100' : 'opacity-30',
+              )}
+            />
+          </button>
+        ))}
+      </div>
+      <p className="text-center text-xs text-secondary">
+        Drag or swipe to explore · tap the centre card for details
       </p>
     </div>
   );

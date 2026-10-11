@@ -2,6 +2,8 @@ import { motion, useReducedMotion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { HeroVideoBg } from './HeroVideoBg';
+import { CountdownDigits } from './CountdownDigits';
+import { useFestCountdown } from '@/hooks/useFestCountdown';
 
 /**
  * Hero — static/CSS tier (Claude.md §9 fallback), now with the supplied Dune-desert video
@@ -11,6 +13,7 @@ import { HeroVideoBg } from './HeroVideoBg';
  */
 export function Hero() {
   const reduceMotion = useReducedMotion();
+  const { phase, remaining, urgency, datesConfirmed } = useFestCountdown();
 
   return (
     <section
@@ -61,6 +64,20 @@ export function Hero() {
           <Link to="/events">Explore events</Link>
         </Button>
       </motion.div>
+
+      {datesConfirmed && phase === 'before' && (
+        <motion.div
+          initial={reduceMotion ? undefined : { opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1], delay: 0.55 }}
+          className="relative mt-8"
+        >
+          <CountdownDigits remaining={remaining} urgency={urgency} reduceMotion={reduceMotion ?? false} compact />
+          <p className="mt-3 text-xs text-secondary [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">
+            20–21 November 2026
+          </p>
+        </motion.div>
+      )}
 
       <motion.div
         aria-hidden="true"

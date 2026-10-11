@@ -1,0 +1,18 @@
+{
+  "developers": [
+    {
+      "name": "Shon Varghese",
+      "numeral": "XI",
+      "title": "The Architect",
+      "role": "Front-end Developer · UI Design",
+      "photo": ""
+    },
+    {
+      "name": "Fawas",
+      "numeral": "XII",
+      "title": "The Artisan",
+      "role": "Backend Developer",
+      "photo": ""
+    }
+  ]
+}
