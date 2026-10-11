@@ -10,9 +10,9 @@ const sponsors = sponsorsData as Sponsors;
 const allSponsors = sponsors.tiers.flatMap((t) => t.sponsors);
 
 /** px per second — constant speed regardless of how many logos are in the lane. */
-const SPEED = 55;
-/** A lane must be wider than the widest viewport, so short lists repeat (10 × ~250px). */
-const MIN_TILES = 10;
+const SPEED = 80;
+/** A lane must be wider than the widest viewport, so short lists repeat (12 × ~165px). */
+const MIN_TILES = 12;
 
 type Item = { name: string; logo?: string; url?: string };
 
@@ -27,8 +27,8 @@ const PLACEHOLDER_SLOTS: Item[] = Array.from({ length: 6 }, () => ({
  * (https://framer.com/m/InfiniteLogoMarquee-yYDqY0.js@4XlYAwtH5jegeWoIEhra).
  * Two identical lanes (each padded by one gap) slide -50% for a seamless loop; duration is
  * derived from measured lane width so speed is constant in px/s. Edge fade mask, pause on
- * hover/focus and while off-screen, logos grayscale at 55% opacity that reveal colour and
- * lift on hover. Reduced motion → static grid. Reskinned to §4 tokens.
+ * hover/focus and while off-screen, full-colour logos that lift on hover. Reduced motion →
+ * static grid. Reskinned to §4 tokens.
  */
 export function SponsorsMarquee() {
   const reduceMotion = useReducedMotion();
@@ -121,7 +121,7 @@ function Marquee({ items }: { items: Item[] }) {
             key={copy}
             ref={copy === 0 ? laneRef : undefined}
             aria-hidden={copy === 1 || undefined}
-            className="flex shrink-0 items-center gap-10 pr-10 md:gap-14 md:pr-14"
+            className="flex shrink-0 items-center gap-8 pr-8 md:gap-12 md:pr-12"
           >
             {laneItems.map((s, i) => (
               <LogoTile
@@ -142,9 +142,11 @@ function LogoTile({ item, hidden = false }: { item: Item; hidden?: boolean }) {
     <img
       src={item.logo}
       alt={hidden ? '' : item.name}
-      loading="lazy"
+      // Not lazy: tiles start off to the side of the viewport and native lazy-loading
+      // leaves them blank as they slide in. Logos are ~8 KB each.
+      decoding="async"
       draggable={false}
-      className="h-full w-full object-contain"
+      className="h-full w-auto max-w-[200px] object-contain"
     />
   ) : (
     <span className="rounded-sm border border-dashed border-accent/40 px-4 py-3 font-display text-xs uppercase tracking-[0.2em] text-sand">
@@ -153,7 +155,7 @@ function LogoTile({ item, hidden = false }: { item: Item; hidden?: boolean }) {
   );
 
   const tileClass =
-    'flex h-20 w-[150px] shrink-0 md:h-24 md:w-[190px] items-center justify-center p-1.5 opacity-55 grayscale transition-[opacity,transform,filter] duration-base ease-sand hover:scale-105 hover:opacity-100 hover:grayscale-0 focus-visible:scale-105 focus-visible:opacity-100 focus-visible:grayscale-0';
+    'flex h-20 shrink-0 items-center justify-center p-1 transition-transform duration-base ease-sand hover:scale-105 focus-visible:scale-105 md:h-24';
 
   if (!item.url)
     return (

@@ -61,9 +61,9 @@ export function HeroVideoBg() {
         </video>
       )}
       {/* Keeps the real HTML headline/CTA readable at 4.5:1 regardless of frame brightness */}
-      <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/20 to-ink" />
-      {/* Extra shade right behind the text block — the sand frames are very bright */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_45%,rgba(18,19,22,0.4),transparent_75%)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/45 via-ink/25 to-ink" />
+      {/* Extra shade right behind the text block — the frames are very bright */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_45%_at_50%_45%,rgba(18,19,22,0.6),transparent_75%)]" />
     </div>
   );
 }

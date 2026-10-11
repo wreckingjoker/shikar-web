@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from 'motion/react';
 import { Link } from 'react-router-dom';
+import { CalendarDays } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { HeroVideoBg } from './HeroVideoBg';
 import { CountdownDigits } from './CountdownDigits';
@@ -18,7 +19,7 @@ export function Hero() {
   return (
     <section
       data-world="known"
-      className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-4 pt-[104px] text-center"
+      className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-4 pb-[88px] pt-[104px] text-center"
     >
       <HeroVideoBg />
 
@@ -26,7 +27,7 @@ export function Hero() {
         initial={reduceMotion ? undefined : { opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
-        className="text-metallic-gold relative font-display text-xs uppercase tracking-[0.3em]"
+        className="relative font-display text-sm font-semibold uppercase tracking-[0.28em] text-primary [text-shadow:0_1px_2px_rgba(0,0,0,0.95),0_2px_14px_rgba(0,0,0,0.9)] md:text-base"
       >
         SCMS Business School, Kochi
       </motion.p>
@@ -46,7 +47,7 @@ export function Hero() {
         initial={reduceMotion ? undefined : { opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1], delay: 0.25 }}
-        className="text-metallic-gold relative mx-auto mt-6 max-w-[42ch] text-lg md:text-lg-d"
+        className="relative mx-auto mt-6 max-w-[42ch] text-lg font-semibold text-primary [text-shadow:0_1px_2px_rgba(0,0,0,0.95),0_2px_14px_rgba(0,0,0,0.9)] md:text-lg-d"
       >
         Can you manage what has never existed before?
       </motion.p>
@@ -73,8 +74,12 @@ export function Hero() {
           className="relative mt-8"
         >
           <CountdownDigits remaining={remaining} urgency={urgency} reduceMotion={reduceMotion ?? false} compact />
-          <p className="mt-3 text-xs text-secondary [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">
-            20–21 November 2026
+          {/* Fest date as a badge — the one fact nobody should scroll past */}
+          <p className="mx-auto mt-4 inline-flex items-center gap-2 rounded-pill border border-mustard/70 bg-ink/70 px-4 py-2 shadow-glow backdrop-blur-sm">
+            <CalendarDays aria-hidden="true" size={18} strokeWidth={1.75} className="shrink-0 text-accent" />
+            <span className="text-metallic-gold font-display text-sm uppercase tracking-[0.18em] md:text-base">
+              20–21 November 2026
+            </span>
           </p>
         </motion.div>
       )}

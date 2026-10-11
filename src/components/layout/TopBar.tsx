@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import { Drawer as DrawerPrimitive } from 'vaul';
 import { Logo } from '@/components/brand/Logo';
+import { ScmsLogo } from '@/components/brand/ScmsLogo';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import { cn } from '@/lib/utils';
 
@@ -40,9 +41,13 @@ export function TopBar() {
       )}
     >
       <div className="mx-auto flex h-[88px] max-w-6xl items-center justify-between px-4 pt-[12px] md:h-[104px] md:px-8">
-        <NavLink to="/" aria-label="SHIKHAR 2026 home">
-          <Logo />
-        </NavLink>
+        <div className="flex items-center gap-3">
+          <NavLink to="/" aria-label="SHIKHAR 2026 home">
+            <Logo />
+          </NavLink>
+          <span aria-hidden="true" className="h-[32px] w-px bg-mustard/40" />
+          <ScmsLogo className="h-[36px] md:h-[44px]" />
+        </div>
         <nav aria-label="Primary" className="hidden items-center gap-6 md:flex">
           {LINKS.map((link) => (
             <NavLink
