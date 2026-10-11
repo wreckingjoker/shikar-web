@@ -4,6 +4,7 @@ import { JourneyTrail } from '@/components/sections/JourneyTrail';
 import { Countdown } from '@/components/sections/Countdown';
 import { SponsorsMarquee } from '@/components/sections/SponsorsMarquee';
 import { Finale } from '@/components/sections/Finale';
+import { LocationSection } from '@/components/sections/LocationSection';
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <WorldsSection />
       <JourneyTrail />
       <Countdown />
+      <LocationSection />
       <SponsorsMarquee />
       <Finale />
     </>

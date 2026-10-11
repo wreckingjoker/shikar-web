@@ -11,6 +11,8 @@ export const FEST_DATES_CONFIRMED = true;
 
 export const FEST_VENUE = 'SCMS Business School, Prathap Nagar, Muttom, Kochi';
 export const FEST_VENUE_CONFIRMED = false;
+// Google Maps search for the campus — drives the embedded map and the "Get directions" link.
+export const FEST_VENUE_MAP_QUERY = 'SCMS Cochin School of Business, Prathap Nagar, Muttom, Aluva, Kerala';
 
 // TODO(open-item): registration platform not chosen (Konfhub / Tally / Google Forms /
 // Razorpay Payment Pages). Every Register CTA in the app points at this one constant —
