@@ -11,5 +11,14 @@ export default defineConfig({
   },
   build: {
     target: 'es2020',
+    rollupOptions: {
+      output: {
+        // React + router change rarely: a separate long-cached chunk means content
+        // deploys (fest week!) don't make returning visitors re-download them.
+        manualChunks: {
+          react: ['react', 'react-dom', 'react-router-dom'],
+        },
+      },
+    },
   },
 });

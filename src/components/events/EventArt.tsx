@@ -15,7 +15,10 @@ interface EventArtProps {
  * swap to the placeholder: corner brackets are the Design.md §Shapes "signature ornament".
  */
 export function EventArt({ event, className, placeholderOverlay }: EventArtProps) {
-  const [failed, setFailed] = useState(!event.image);
+  // Track WHICH image failed, not just "failed": the same instance is reused when the
+  // event sheet switches events, and a boolean would leak one event's 404 onto the next.
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const failed = !event.image || failedSrc === event.image;
 
   if (!failed) {
     return (
@@ -27,7 +30,7 @@ export function EventArt({ event, className, placeholderOverlay }: EventArtProps
           loading="lazy"
           decoding="async"
           draggable={false}
-          onError={() => setFailed(true)}
+          onError={() => setFailedSrc(event.image)}
           className="h-full w-full select-none object-cover object-center"
         />
       </picture>

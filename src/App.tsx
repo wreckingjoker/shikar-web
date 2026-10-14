@@ -1,15 +1,19 @@
+import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import Home from '@/pages/Home';
-import Events from '@/pages/Events';
-import EventDetail from '@/pages/EventDetail';
-import SchedulePage from '@/pages/Schedule';
-import RegisterPage from '@/pages/Register';
-import Experience from '@/pages/Experience';
-import SponsorsPage from '@/pages/Sponsors';
-import Team from '@/pages/Team';
-import FAQPage from '@/pages/FAQ';
-import NotFound from '@/pages/NotFound';
+
+// Home ships in the main bundle (it's the landing page / LCP). Every other route is
+// split into its own chunk and fetched on first visit — Claude.md §8 initial-JS budget.
+const Events = lazy(() => import('@/pages/Events'));
+const EventDetail = lazy(() => import('@/pages/EventDetail'));
+const SchedulePage = lazy(() => import('@/pages/Schedule'));
+const RegisterPage = lazy(() => import('@/pages/Register'));
+const Experience = lazy(() => import('@/pages/Experience'));
+const SponsorsPage = lazy(() => import('@/pages/Sponsors'));
+const Team = lazy(() => import('@/pages/Team'));
+const FAQPage = lazy(() => import('@/pages/FAQ'));
+const NotFound = lazy(() => import('@/pages/NotFound'));
 
 export default function App() {
   return (

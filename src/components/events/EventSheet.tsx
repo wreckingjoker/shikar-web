@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { MessageCircle } from 'lucide-react';
 import type { FestEvent } from '@/types/event';
 import { Drawer, DrawerContent } from '@/components/ui/drawer';
@@ -17,9 +18,19 @@ interface EventSheetProps {
  * accordions, sticky Register + WhatsApp footer. Fee/prize/team-size/Register stay
  * visible without scrolling per Design.md "Do"s — they sit above the accordions.
  */
-export function EventSheet({ event, onClose }: EventSheetProps) {
+export function EventSheet({ event: selected, onClose }: EventSheetProps) {
+  // Keep rendering the last event while the sheet animates closed — clearing it to null
+  // straight away unmounted the content and cut the slide-down animation off.
+  const lastEventRef = useRef<FestEvent | null>(null);
+  if (selected) lastEventRef.current = selected;
+  const event = selected ?? lastEventRef.current;
+
+  // Blank template entries ({ name: "", whatsapp: "" }) must not render as empty rows.
+  const coordinators = event?.coordinators.filter((c) => c.name.trim()) ?? [];
+  const whatsapp = event?.coordinators.find((c) => c.whatsapp.trim())?.whatsapp.trim();
+
   return (
-    <Drawer open={!!event} onOpenChange={(open) => !open && onClose()}>
+    <Drawer open={!!selected} onOpenChange={(open) => !open && onClose()}>
       {event && (
         <DrawerContent aria-describedby={undefined}>
           <div className="flex flex-1 flex-col overflow-y-auto">
@@ -63,10 +74,10 @@ export function EventSheet({ event, onClose }: EventSheetProps) {
                 <AccordionItem value="coordinators">
                   <AccordionTrigger>Coordinators</AccordionTrigger>
                   <AccordionContent>
-                    {event.coordinators.length > 0 ? (
+                    {coordinators.length > 0 ? (
                       <ul className="space-y-1">
-                        {event.coordinators.map((c) => (
-                          <li key={c.whatsapp}>{c.name}</li>
+                        {coordinators.map((c, i) => (
+                          <li key={`${c.name}-${i}`}>{c.name}</li>
                         ))}
                       </ul>
                     ) : (
@@ -79,14 +90,14 @@ export function EventSheet({ event, onClose }: EventSheetProps) {
           </div>
 
           <div className="flex gap-3 border-t border-border bg-surface p-4 pb-[calc(env(safe-area-inset-bottom)+16px)]">
-            {event.coordinators[0]?.whatsapp && (
+            {whatsapp && (
               <Button
                 asChild
                 variant="secondary"
                 className="flex-1"
               >
                 <a
-                  href={`https://wa.me/${event.coordinators[0].whatsapp}`}
+                  href={`https://wa.me/${whatsapp.replace(/[^\d]/g, '')}`}
                   target="_blank"
                   rel="noreferrer"
                 >
