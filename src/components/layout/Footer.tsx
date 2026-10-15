@@ -76,6 +76,12 @@ export function Footer() {
         <span aria-hidden="true" className="h-[36px] w-px bg-mustard/40" />
         <ScmsLogo className="h-[48px]" />
       </div>
+      <address className="mx-auto mb-5 max-w-sm text-sm not-italic leading-relaxed text-secondary">
+        <span className="block text-primary">SCMS Group of Educational Institutions</span>
+        SCMS Campus, Prathap Nagar, Muttom, Aluva
+        <br />
+        Cochin, Kerala – 683 106, India
+      </address>
       <p className="font-display text-xs uppercase tracking-[0.25em] text-secondary">
         {SITE_NAME} · SCMS Business School, Kochi
       </p>
