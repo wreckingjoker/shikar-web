@@ -17,10 +17,22 @@ function prefersLightweightMedia() {
  * connections (feature-detected, never user-agent sniffed — Claude.md §11). Canvas-
  * equivalent here: aria-hidden, all real copy stays in Hero.tsx as HTML on top.
  */
+// Landscape 1920×1080 cut for desktop/tablet, portrait 720×1280 cut for phones. Chosen once
+// at mount (not on resize) so a viewport change never triggers a second download.
+const DESKTOP_QUERY = '(min-width: 768px)';
+// VP9 WebM is ~15% smaller; MP4 (H.264) stays as the fallback for browsers without VP9.
+const MEDIA = {
+  desktop: { video: '/video/hero-desktop', poster: '/video/hero-desktop-poster.jpg' },
+  mobile: { video: '/video/hero', poster: '/video/hero-poster.jpg' },
+};
+
 export function HeroVideoBg() {
   const reduceMotion = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [skipVideo, setSkipVideo] = useState(false);
+  const [media] = useState(() =>
+    window.matchMedia(DESKTOP_QUERY).matches ? MEDIA.desktop : MEDIA.mobile,
+  );
 
   useEffect(() => {
     setSkipVideo(prefersLightweightMedia());
@@ -42,7 +54,7 @@ export function HeroVideoBg() {
     <div aria-hidden="true" className="absolute inset-0 overflow-hidden bg-ink">
       {skipVideo ? (
         <img
-          src="/video/hero-poster.jpg"
+          src={media.poster}
           alt=""
           className="h-full w-full object-cover object-center"
         />
@@ -50,14 +62,15 @@ export function HeroVideoBg() {
         <video
           ref={videoRef}
           className="h-full w-full object-cover object-center"
-          poster="/video/hero-poster.jpg"
+          poster={media.poster}
           autoPlay={!reduceMotion}
           muted
           loop
           playsInline
           preload="auto"
         >
-          <source src="/video/hero.mp4" type="video/mp4" />
+          <source src={`${media.video}.webm`} type='video/webm; codecs="vp9"' />
+          <source src={`${media.video}.mp4`} type="video/mp4" />
         </video>
       )}
     </div>

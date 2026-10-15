@@ -11,7 +11,8 @@
     />
     <link rel="icon" href="/brand/shikhar-logo.avif" type="image/avif" />
     <!-- LCP: the hero poster paints before the video/JS — fetch it first -->
-    <link rel="preload" as="image" href="/video/hero-poster.jpg" fetchpriority="high" />
+    <link rel="preload" as="image" href="/video/hero-poster.jpg" media="(max-width: 767px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="/video/hero-desktop-poster.jpg" media="(min-width: 768px)" fetchpriority="high" />
     <link rel="preload" as="image" href="/brand/shikhar-logo.avif" type="image/avif" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
