@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Linkedin } from 'lucide-react';
 import { SITE_NAME } from '@/config/site';
-import { developerNames } from '@/lib/developer';
 import { Logo } from '@/components/brand/Logo';
 import { ScmsLogo } from '@/components/brand/ScmsLogo';
 import { cn } from '@/lib/utils';
@@ -36,7 +35,7 @@ const SOCIAL_LINKS = [
   },
 ] as const;
 
-/** Site footer — page links, fest line, and the "created by" credit (→ /team#developer). */
+/** Site footer — page links, socials, logos and fest line. */
 export function Footer() {
   return (
     <footer className="border-t border-border bg-ink px-4 py-7 text-center">
@@ -79,15 +78,6 @@ export function Footer() {
       </div>
       <p className="font-display text-xs uppercase tracking-[0.25em] text-secondary">
         {SITE_NAME} · SCMS Business School, Kochi
-      </p>
-      <p className="mt-2 text-xs text-secondary/80">
-        created by{' '}
-        <Link
-          to="/team#developer"
-          className="inline-flex min-h-[44px] items-center text-secondary underline-offset-4 transition-colors duration-base ease-sand hover:text-accent hover:underline"
-        >
-          {developerNames}
-        </Link>
       </p>
     </footer>
   );

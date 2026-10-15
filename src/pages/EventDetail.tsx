@@ -3,10 +3,12 @@ import { MessageCircle } from 'lucide-react';
 import eventsData from '@/data/events.json';
 import type { FestEvent } from '@/types/event';
 import { EventArt } from '@/components/events/EventArt';
+import { CoordinatorItem } from '@/components/events/CoordinatorItem';
 import { ChipLabel } from '@/components/ui/chip';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { REGISTRATION_OPEN, REGISTRATION_URL } from '@/config/site';
+import { formatFee, formatPrize, formatTeamSize } from '@/lib/event-format';
 
 const events = eventsData as FestEvent[];
 
@@ -15,6 +17,10 @@ export default function EventDetail() {
   const event = events.find((e) => e.slug === slug);
 
   if (!event) return <Navigate to="/events" replace />;
+
+  // Blank template entries ({ name: "", whatsapp: "" }) must not render as empty rows.
+  const coordinators = event.coordinators.filter((c) => c.name.trim());
+  const whatsapp = event.coordinators.find((c) => c.whatsapp.trim())?.whatsapp.trim();
 
   return (
     <div className="pb-16 pt-16">
@@ -33,13 +39,14 @@ export default function EventDetail() {
 
         <div className="mt-5 flex flex-wrap gap-2">
           {event.journeyWord && <ChipLabel>{event.journeyWord}</ChipLabel>}
-          <ChipLabel>{event.teamSize ? `Team of ${event.teamSize}` : 'Team size TBA'}</ChipLabel>
-          <ChipLabel>{event.fee != null ? `₹${event.fee}` : 'Fee TBA'}</ChipLabel>
-          <ChipLabel>{event.prize != null ? `₹${event.prize} prize` : 'Prize TBA'}</ChipLabel>
+          <ChipLabel>{formatTeamSize(event)}</ChipLabel>
+          <ChipLabel>{formatFee(event)}</ChipLabel>
+          <ChipLabel>{formatPrize(event)}</ChipLabel>
           <ChipLabel>
             {event.day && event.time ? `${event.day} · ${event.time}` : 'Schedule TBA'}
           </ChipLabel>
         </div>
+        {event.feeNote && <p className="mt-3 text-sm text-secondary">{event.feeNote}</p>}
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           {REGISTRATION_OPEN && REGISTRATION_URL ? (
@@ -53,9 +60,9 @@ export default function EventDetail() {
               Registration opens soon
             </Button>
           )}
-          {event.coordinators[0]?.whatsapp && (
+          {whatsapp && (
             <Button asChild variant="secondary">
-              <a href={`https://wa.me/${event.coordinators[0].whatsapp}`} target="_blank" rel="noreferrer">
+              <a href={`https://wa.me/${whatsapp.replace(/[^\d]/g, '')}`} target="_blank" rel="noreferrer">
                 <MessageCircle size={16} aria-hidden="true" />
                 WhatsApp coordinator
               </a>
@@ -85,10 +92,10 @@ export default function EventDetail() {
           <AccordionItem value="coordinators">
             <AccordionTrigger>Coordinators</AccordionTrigger>
             <AccordionContent>
-              {event.coordinators.length > 0 ? (
+              {coordinators.length > 0 ? (
                 <ul className="space-y-1">
-                  {event.coordinators.map((c) => (
-                    <li key={c.whatsapp}>{c.name}</li>
+                  {coordinators.map((c, i) => (
+                    <CoordinatorItem key={`${c.name}-${i}`} coordinator={c} />
                   ))}
                 </ul>
               ) : (

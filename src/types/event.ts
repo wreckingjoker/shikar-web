@@ -15,8 +15,14 @@ export interface FestEvent {
   journeyOrder: number | null;
   journeyWord: string | null;
   teamSize: string | null;
+  /** Registration fee in INR (online / standard). */
   fee: number | null;
-  prize: number | null;
+  /** Spot-registration fee in INR, when it differs from `fee`. */
+  spotFee: number | null;
+  /** Extra fee detail shown under the chips, e.g. per-person pricing or an early-bird offer. */
+  feeNote: string | null;
+  /** Cash prize per place in INR, in finishing order: [1st, 2nd, …]. */
+  prize: number[] | null;
   day: string | null;
   time: string | null;
   venue: string | null;

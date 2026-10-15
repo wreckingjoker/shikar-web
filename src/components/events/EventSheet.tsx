@@ -6,7 +6,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { ChipLabel } from '@/components/ui/chip';
 import { Button } from '@/components/ui/button';
 import { EventArt } from './EventArt';
+import { CoordinatorItem } from './CoordinatorItem';
 import { REGISTRATION_OPEN, REGISTRATION_URL } from '@/config/site';
+import { formatFee, formatPrize, formatTeamSize } from '@/lib/event-format';
 
 interface EventSheetProps {
   event: FestEvent | null;
@@ -44,13 +46,14 @@ export function EventSheet({ event: selected, onClose }: EventSheetProps) {
               <p className="mt-2 text-base text-secondary">{event.tagline}</p>
 
               <div className="mt-4 flex flex-wrap gap-2">
-                <ChipLabel>{event.teamSize ? `Team of ${event.teamSize}` : 'Team size TBA'}</ChipLabel>
-                <ChipLabel>{event.fee != null ? `₹${event.fee}` : 'Fee TBA'}</ChipLabel>
-                <ChipLabel>{event.prize != null ? `₹${event.prize} prize` : 'Prize TBA'}</ChipLabel>
+                <ChipLabel>{formatTeamSize(event)}</ChipLabel>
+                <ChipLabel>{formatFee(event)}</ChipLabel>
+                <ChipLabel>{formatPrize(event)}</ChipLabel>
                 <ChipLabel>
                   {event.day && event.time ? `${event.day} · ${event.time}` : 'Schedule TBA'}
                 </ChipLabel>
               </div>
+              {event.feeNote && <p className="mt-3 text-sm text-secondary">{event.feeNote}</p>}
 
               <Accordion type="single" collapsible className="mt-5">
                 <AccordionItem value="theme">
@@ -77,7 +80,7 @@ export function EventSheet({ event: selected, onClose }: EventSheetProps) {
                     {coordinators.length > 0 ? (
                       <ul className="space-y-1">
                         {coordinators.map((c, i) => (
-                          <li key={`${c.name}-${i}`}>{c.name}</li>
+                          <CoordinatorItem key={`${c.name}-${i}`} coordinator={c} />
                         ))}
                       </ul>
                     ) : (

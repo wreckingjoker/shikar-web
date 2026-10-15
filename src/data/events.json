@@ -8,14 +8,37 @@
     "theme": "Leadership under pressure, judgement without a playbook",
     "journeyOrder": 1,
     "journeyWord": "Vision",
-    "teamSize": null,
-    "fee": null,
-    "prize": null,
+    "teamSize": "1",
+    "fee": 500,
+    "spotFee": null,
+    "feeNote": null,
+    "prize": [
+      25000
+    ],
     "day": null,
     "time": null,
     "venue": null,
-    "rules": [],
-    "coordinators": [],
+    "rules": [
+      "All participants must report 30 minutes before the scheduled event.",
+      "A valid college ID card is mandatory, and a chest number will be allocated.",
+      "There is no limit to the number of participants from a college.",
+      "Participants are requested to come in formals.",
+      "Participants must bring their own laptop and smartphone and have an internet backup.",
+      "Instructions for each round will be communicated before the round starts.",
+      "Participants must maintain professional decorum throughout. Any misconduct will result in immediate disqualification.",
+      "Please adhere to the rules and regulations to avoid disqualification.",
+      "The decisions made by the judges and event organisers will be considered final."
+    ],
+    "coordinators": [
+      {
+        "name": "Akhil Antony Gigu",
+        "whatsapp": "917034333664"
+      },
+      {
+        "name": "Kevin Marshall",
+        "whatsapp": "918943635028"
+      }
+    ],
     "registerUrl": "",
     "image": "/img/events/the-visionary.avif"
   },
@@ -28,14 +51,37 @@
     "theme": "Positioning, persuasion and the story behind the brand",
     "journeyOrder": 2,
     "journeyWord": "Influence",
-    "teamSize": null,
-    "fee": null,
-    "prize": null,
+    "teamSize": "4",
+    "fee": 1200,
+    "spotFee": null,
+    "feeNote": "Early-bird offer: ₹1,000 for the first 6 teams to register.",
+    "prize": [
+      20000,
+      15000
+    ],
     "day": null,
     "time": null,
     "venue": null,
-    "rules": [],
-    "coordinators": [],
+    "rules": [
+      "A team should consist of 4 members from the same college.",
+      "Up to 3 teams can participate from the same college.",
+      "Participants must bring their college ID cards during the event.",
+      "Each team is required to carry at least 2 laptops.",
+      "All participants must report at the campus at the prescribed time.",
+      "Participants should report at the right time for each round. There will not be any extra time.",
+      "Any misconduct or failure to adhere to the rules and regulations will lead to the disqualification of the team.",
+      "The decisions made by the judges and event organisers will be considered final."
+    ],
+    "coordinators": [
+      {
+        "name": "Shriya R Nair",
+        "whatsapp": "917356263453"
+      },
+      {
+        "name": "Roshan",
+        "whatsapp": "919037390267"
+      }
+    ],
     "registerUrl": "",
     "image": "/img/events/the-voice.avif"
   },
@@ -48,14 +94,30 @@
     "theme": "Culture, talent and the architecture of teams",
     "journeyOrder": 3,
     "journeyWord": "People",
-    "teamSize": null,
-    "fee": null,
-    "prize": null,
+    "teamSize": "4",
+    "fee": 1000,
+    "spotFee": null,
+    "feeNote": null,
+    "prize": [
+      20000,
+      15000
+    ],
     "day": null,
     "time": null,
     "venue": null,
-    "rules": [],
-    "coordinators": [],
+    "rules": [
+      "Each team must consist of 4 members.",
+      "Participants must register within the specified deadline.",
+      "Registration is subject to the availability of slots.",
+      "Team members must carry valid college ID cards.",
+      "Teams must report before the scheduled time."
+    ],
+    "coordinators": [
+      {
+        "name": "Safa",
+        "whatsapp": "919188680595"
+      }
+    ],
     "registerUrl": "",
     "image": "/img/events/the-houses.avif"
   },
@@ -68,14 +130,42 @@
     "theme": "Capital allocation and risk",
     "journeyOrder": 4,
     "journeyWord": "Resources",
-    "teamSize": null,
-    "fee": null,
-    "prize": null,
+    "teamSize": "2",
+    "fee": 1000,
+    "spotFee": null,
+    "feeNote": null,
+    "prize": [
+      20000,
+      15000
+    ],
     "day": null,
     "time": null,
     "venue": null,
-    "rules": [],
-    "coordinators": [],
+    "rules": [
+      "Each team must consist of 2 members from the same college.",
+      "Participants must register with their team name and member details and carry valid college ID cards.",
+      "Teams must report to the campus at the prescribed time and be punctual for every round. No extra time will be provided for late reporting or submissions.",
+      "Each team must bring one smartphone with reliable internet connectivity and an internet backup for the Trading Pit round, along with a notebook and pens.",
+      "Smartphones may be used only during Trading Pit and only for the designated game platform. Other electronic devices and calculators may be used only if expressly permitted by the organisers for a particular round.",
+      "The event comprises five rounds: Broken Ledger, Trading Pit, Water Rights Auction, Capital Council and Silent Storm. All teams participate in every round.",
+      "Round instructions, time limits and scoring criteria will be announced before each round. All teams will receive the same cases and deadlines.",
+      "Trading and bidding use fictional credits only. Each round starts with a fresh balance, and transfers of credits or resources between teams are prohibited.",
+      "Each round carries 20 points, for a total of 100. Overall rankings will be based on the cumulative score; ties will be resolved using the announced tie-break rules.",
+      "AI tools, outside assistance, communication with other teams and unauthorised use of the internet are prohibited.",
+      "Participants must maintain professional decorum. Misconduct, manipulation of the game platform or failure to follow the rules may result in disqualification.",
+      "Any technical issue must be reported immediately to the event coordinators. Teams must follow the organisers' instructions for any backup arrangements.",
+      "The decisions of the judges and event organisers will be final."
+    ],
+    "coordinators": [
+      {
+        "name": "Malavika",
+        "whatsapp": "919946299432"
+      },
+      {
+        "name": "Karthik",
+        "whatsapp": "919037421972"
+      }
+    ],
     "registerUrl": "",
     "image": "/img/events/the-spice.avif"
   },
@@ -88,14 +178,37 @@
     "theme": "Supply, scarcity and operating under constraint",
     "journeyOrder": 5,
     "journeyWord": "Adaptation",
-    "teamSize": null,
-    "fee": null,
-    "prize": null,
+    "teamSize": "up to 4",
+    "fee": 1000,
+    "spotFee": null,
+    "feeNote": null,
+    "prize": [
+      20000,
+      15000
+    ],
     "day": null,
     "time": null,
     "venue": null,
-    "rules": [],
-    "coordinators": [],
+    "rules": [
+      "Each team must have a maximum of 4 members from the same college.",
+      "All participants must report before 10:00 am and complete the registration process at SCMS.",
+      "Participants must carry their college ID card. Submitting the ID card is mandatory to complete registration.",
+      "Participants must report 20 minutes before each round begins.",
+      "The dress code is formals only. For women, kurtis are allowed.",
+      "Each team has to bring 2 laptops. Mobiles are not allowed during rounds unless permitted by the event coordinators.",
+      "Participants must maintain decorum, discipline and professionalism throughout the fest. Any form of misconduct will lead to disqualification.",
+      "The decisions made by the judges and event coordinators are final and binding on all participants."
+    ],
+    "coordinators": [
+      {
+        "name": "Sumithra S",
+        "whatsapp": "918590544825"
+      },
+      {
+        "name": "Chandana Vinil",
+        "whatsapp": "917356076737"
+      }
+    ],
     "registerUrl": "",
     "image": "/img/events/arrakis.avif"
   },
@@ -108,14 +221,34 @@
     "theme": "Partnership, trust and division of judgement",
     "journeyOrder": 6,
     "journeyWord": "Partnership",
-    "teamSize": null,
-    "fee": null,
-    "prize": null,
+    "teamSize": "2",
+    "fee": 400,
+    "spotFee": 500,
+    "feeNote": null,
+    "prize": [
+      10000,
+      5000
+    ],
     "day": null,
     "time": null,
     "venue": null,
-    "rules": [],
-    "coordinators": [],
+    "rules": [
+      "Every round is time-limited, with a fixed preparation and/or answering time.",
+      "Every team member must take part.",
+      "No outside help. Phones and internet are banned in Rounds 1 and 2; Round 4 allows phones but not earphones or headphones.",
+      "Content must be appropriate and non-offensive.",
+      "Round 1 has 20 questions at 1 mark each. Rounds 2–4 are each scored out of 20 marks."
+    ],
+    "coordinators": [
+      {
+        "name": "Sharon Shibu",
+        "whatsapp": "917306056498"
+      },
+      {
+        "name": "Suraj",
+        "whatsapp": "918086474208"
+      }
+    ],
     "registerUrl": "",
     "image": "/img/events/the-alliance.avif"
   },
@@ -128,14 +261,36 @@
     "theme": "Coordination across every function of a business",
     "journeyOrder": 7,
     "journeyWord": "Coordination",
-    "teamSize": null,
-    "fee": null,
-    "prize": null,
+    "teamSize": "4",
+    "fee": 800,
+    "spotFee": null,
+    "feeNote": null,
+    "prize": [
+      20000,
+      15000
+    ],
     "day": null,
     "time": null,
     "venue": null,
-    "rules": [],
-    "coordinators": [],
+    "rules": [
+      "Each team should consist of 4 members from the same college.",
+      "A maximum of 3 teams can participate from the same college.",
+      "Participants must bring their college ID cards during the event.",
+      "All participants must report to the campus at the prescribed time.",
+      "Each team must carry at least 2 laptops.",
+      "Any misconduct or failure to adhere to the rules and regulations will lead to the disqualification of the team.",
+      "The decisions made by the judges and event organisers will be considered final."
+    ],
+    "coordinators": [
+      {
+        "name": "Allendorf",
+        "whatsapp": "918921783179"
+      },
+      {
+        "name": "Sruthilakshmi C B",
+        "whatsapp": "919633282820"
+      }
+    ],
     "registerUrl": "",
     "image": "/img/events/the-council.avif"
   },
@@ -148,14 +303,38 @@
     "theme": "Foresight, concept and the pitch that sells a future",
     "journeyOrder": 8,
     "journeyWord": "Foresight",
-    "teamSize": null,
-    "fee": null,
-    "prize": null,
+    "teamSize": "up to 4",
+    "fee": 600,
+    "spotFee": 800,
+    "feeNote": null,
+    "prize": [
+      15000,
+      10000
+    ],
     "day": null,
     "time": null,
     "venue": null,
-    "rules": [],
-    "coordinators": [],
+    "rules": [
+      "Each team may have a maximum of 4 members, all from the same college.",
+      "A maximum of 2 teams per college will be allowed to participate.",
+      "All participants must carry their college ID card.",
+      "All participants must report at the campus before the reporting time.",
+      "Participants should report at the right time for each round. There will not be any extra time.",
+      "Every team must bring a laptop and a smartphone with reliable internet connectivity.",
+      "Any queries or clarifications about the event should be raised before the game begins.",
+      "Any misconduct or failure to adhere to the rules and regulations will lead to the disqualification of the team.",
+      "The judges' decisions are final and binding on all participants."
+    ],
+    "coordinators": [
+      {
+        "name": "Swetha",
+        "whatsapp": "917592084269"
+      },
+      {
+        "name": "Saphalya",
+        "whatsapp": "916235734382"
+      }
+    ],
     "registerUrl": "",
     "image": "/img/events/the-prophecy.avif"
   },
@@ -169,13 +348,43 @@
     "journeyOrder": 9,
     "journeyWord": "Systems",
     "teamSize": null,
-    "fee": null,
-    "prize": null,
+    "fee": 600,
+    "spotFee": 800,
+    "feeNote": null,
+    "prize": [
+      15000,
+      10000
+    ],
     "day": null,
     "time": null,
     "venue": null,
     "rules": [],
-    "coordinators": [],
+    "coordinators": [
+      {
+        "name": "Sidharth Manesh",
+        "whatsapp": "918590880413"
+      },
+      {
+        "name": "Tony Varghese",
+        "whatsapp": "917736988537"
+      },
+      {
+        "name": "Devadath",
+        "whatsapp": "918848035623"
+      },
+      {
+        "name": "Lakshmi",
+        "whatsapp": "919447978374"
+      },
+      {
+        "name": "Abhin P",
+        "whatsapp": "919048698536"
+      },
+      {
+        "name": "Nuza Mohammed",
+        "whatsapp": "918129720461"
+      }
+    ],
     "registerUrl": "",
     "image": "/img/events/the-imperium.avif"
   },
@@ -188,14 +397,46 @@
     "theme": "Creation under a deadline, from idea to working build",
     "journeyOrder": 10,
     "journeyWord": "Creation",
-    "teamSize": null,
-    "fee": null,
-    "prize": null,
+    "teamSize": "4",
+    "fee": 600,
+    "spotFee": 800,
+    "feeNote": null,
+    "prize": [
+      15000,
+      10000
+    ],
     "day": null,
     "time": null,
     "venue": null,
-    "rules": [],
-    "coordinators": [],
+    "rules": [
+      "Each team should consist of 4 members from the same college.",
+      "Participants must bring their college ID cards during the event.",
+      "Each team should carry at least 1 laptop for presentations, if required.",
+      "All participants must report to the campus at the prescribed time.",
+      "Participants must report on time for each round. No extra time will be provided.",
+      "Participants must complete all tasks within the allotted time.",
+      "Teams must follow the rules and instructions given by the event organisers.",
+      "All teams must maintain discipline and professional conduct throughout the event. Any misconduct or rule violation will lead to disqualification.",
+      "The decisions made by the judges and event organisers will be considered final and binding."
+    ],
+    "coordinators": [
+      {
+        "name": "Kevin Thomas",
+        "whatsapp": "919400142208"
+      },
+      {
+        "name": "Febin V Varughese",
+        "whatsapp": "918921520838"
+      },
+      {
+        "name": "Athul Jayan",
+        "whatsapp": "918075826316"
+      },
+      {
+        "name": "Neeradh R",
+        "whatsapp": "918590811258"
+      }
+    ],
     "registerUrl": "",
     "image": "/img/events/the-ascension.avif"
   },
@@ -208,14 +449,38 @@
     "theme": "Research and argument, built to last",
     "journeyOrder": null,
     "journeyWord": null,
-    "teamSize": null,
-    "fee": null,
-    "prize": null,
+    "teamSize": "1–2",
+    "fee": 300,
+    "spotFee": null,
+    "feeNote": "Fee is per participant. Multiple teams per institution are welcome.",
+    "prize": [
+      6000,
+      4000
+    ],
     "day": null,
     "time": null,
     "venue": null,
-    "rules": [],
-    "coordinators": [],
+    "rules": [
+      "Participate individually or as a team of up to 2 members.",
+      "Submit a 250–300-word abstract based on \"Transcend the Time\" and one of these themes: The Future Beyond Human Imagination; Bridging Past, Present and Future; Humanity in the Age of Time Transcendence; Sustainable Futures: Designing for Generations; AI, Humanity and the Future of Time.",
+      "Abstracts must highlight the research problem, objectives and originality.",
+      "Abstract acceptance will be communicated to shortlisted participants.",
+      "Full paper length: 2,500–3,000 words.",
+      "Submit all papers online before the deadlines. Late submissions are not accepted.",
+      "Online presentation: 10 minutes + 3 minutes Q&A.",
+      "Judging criteria: originality, research depth, theme relevance, practical significance and presentation skills.",
+      "Important dates: abstract submission by 31 October 2026; abstract acceptance on 4 November 2026; full paper submission by 18 November 2026; online presentation on 20–21 November 2026."
+    ],
+    "coordinators": [
+      {
+        "name": "Nisna Soban",
+        "whatsapp": "918281937639"
+      },
+      {
+        "name": "Leslie Jacob Sam",
+        "whatsapp": "916235479291"
+      }
+    ],
     "registerUrl": "",
     "image": "/img/events/the-archives.avif"
   },
@@ -228,14 +493,39 @@
     "theme": "Presence, poise and professional identity",
     "journeyOrder": null,
     "journeyWord": null,
-    "teamSize": null,
-    "fee": null,
-    "prize": null,
+    "teamSize": "8–12",
+    "fee": 2000,
+    "spotFee": 2500,
+    "feeNote": "Fee is per team.",
+    "prize": [
+      30000,
+      20000
+    ],
     "day": null,
     "time": null,
     "venue": null,
-    "rules": [],
-    "coordinators": [],
+    "rules": [
+      "Open to both PG and UG students. Any number of teams may represent the same campus.",
+      "Each team must have 8 to 12 members from the same campus.",
+      "Theme: Transcend the Time. Teams must creatively portray a journey beyond the present towards the future through costumes, styling, music, walk, narration and overall presentation.",
+      "Teams may explore the transformation of the present and their vision of what lies beyond, clearly reflecting the idea of transcending conventional boundaries of time.",
+      "Time limit: 10 minutes (3 minutes for setup and 7 minutes for the walk).",
+      "Judging criteria: costumes, styling, walking, grooming, stance, attitude, creativity, thematic interpretation and overall presentation.",
+      "Background music must be submitted on a pen drive before the event. Background videos and narration are permitted. Participants are responsible for the compatibility of their files.",
+      "A green room will be provided. Each team must designate one member as the point of contact.",
+      "Vulgarity, late arrival, exceeding the time limit or violation of rules may lead to disqualification.",
+      "The decision of the judges and organising committee shall be final."
+    ],
+    "coordinators": [
+      {
+        "name": "Akshaya J",
+        "whatsapp": "918807976810"
+      },
+      {
+        "name": "Nandana K Menon",
+        "whatsapp": "918590764618"
+      }
+    ],
     "registerUrl": "",
     "image": "/img/events/the-legacy.avif"
   },
@@ -248,14 +538,36 @@
     "theme": "Bidding, budgets and reading the room",
     "journeyOrder": null,
     "journeyWord": null,
-    "teamSize": null,
-    "fee": null,
-    "prize": null,
+    "teamSize": "2–4",
+    "fee": 600,
+    "spotFee": 800,
+    "feeNote": null,
+    "prize": [
+      10000,
+      5000
+    ],
     "day": null,
     "time": null,
     "venue": null,
-    "rules": [],
-    "coordinators": [],
+    "rules": [
+      "Open to PG and UG students of any stream.",
+      "Teams must consist of 2 to 4 members from the same college.",
+      "Give your team name and member names during registration.",
+      "All participants must bring their college ID during the event.",
+      "All participants must report to the campus at the prescribed time.",
+      "Any misconduct or failure to adhere to the rules and regulations of the event will lead to disqualification of the team.",
+      "The decisions made by the judges and the event organisers will be considered final."
+    ],
+    "coordinators": [
+      {
+        "name": "Michael Antony",
+        "whatsapp": "919072987564"
+      },
+      {
+        "name": "Midhun",
+        "whatsapp": "917902970311"
+      }
+    ],
     "registerUrl": "",
     "image": "/img/events/the-great-exchange.avif"
   },
@@ -265,17 +577,44 @@
     "category": "non-management",
     "type": "Football",
     "tagline": "Enter. Compete. Conquer.",
-    "theme": "Six-a-side, sudden turns, no substitute for grit",
+    "theme": "Three-a-side, sudden turns, no substitute for grit",
     "journeyOrder": null,
     "journeyWord": null,
-    "teamSize": null,
-    "fee": null,
-    "prize": null,
+    "teamSize": "5",
+    "fee": 800,
+    "spotFee": null,
+    "feeNote": null,
+    "prize": [
+      10000,
+      5000
+    ],
     "day": null,
     "time": null,
     "venue": null,
-    "rules": [],
-    "coordinators": [],
+    "rules": [
+      "Open to all students.",
+      "Teams must submit the registration fee, college ID verification and a players list.",
+      "Each team can register 5 players: 3 on the field and 2 substitutes.",
+      "Match duration: 8 minutes (two 4-minute halves) with a 1-minute half-time. Drawn matches go to a penalty shootout.",
+      "Knockout format: the losing team is eliminated and the winning team advances to the next round.",
+      "Kick-off is decided by coin toss.",
+      "Rolling substitutions, with referee permission.",
+      "Wear suitable turf or ground footwear.",
+      "Teams must wear matching or clearly distinguishable jerseys.",
+      "Yellow card for repeated fouls or unsporting behaviour; red card for serious misconduct, fighting or abusive behaviour.",
+      "Teams must report to the registration desk at least 15 minutes before their scheduled match.",
+      "Teams that fail to report within 5 minutes of the scheduled start may forfeit the match, subject to the organisers' decision."
+    ],
+    "coordinators": [
+      {
+        "name": "Aswin Anilkumar",
+        "whatsapp": "919447029059"
+      },
+      {
+        "name": "Raffin Davis",
+        "whatsapp": "918921201019"
+      }
+    ],
     "registerUrl": "",
     "image": "/img/events/the-arena.avif"
   },
@@ -288,14 +627,37 @@
     "theme": "Clues, campus and a race against the clock",
     "journeyOrder": null,
     "journeyWord": null,
-    "teamSize": null,
-    "fee": null,
-    "prize": null,
+    "teamSize": "4",
+    "fee": 800,
+    "spotFee": null,
+    "feeNote": "Fee is per team (₹200 per person).",
+    "prize": [
+      15000
+    ],
     "day": null,
     "time": null,
     "venue": null,
-    "rules": [],
-    "coordinators": [],
+    "rules": [
+      "Each team must consist of 4 members.",
+      "All teams must report to the venue on time.",
+      "Participants must follow the instructions given by the coordinators.",
+      "Mobile phones and external assistance are not allowed unless permitted.",
+      "Teams must stay together throughout the hunt.",
+      "Clues and materials must not be damaged, removed or tampered with.",
+      "Fair play and respectful behaviour are mandatory.",
+      "Any cheating or rule violation may lead to disqualification.",
+      "The coordinators' decisions regarding scoring and qualification will be final."
+    ],
+    "coordinators": [
+      {
+        "name": "Albert",
+        "whatsapp": "917736740874"
+      },
+      {
+        "name": "Nihal",
+        "whatsapp": "918281847145"
+      }
+    ],
     "registerUrl": "",
     "image": "/img/events/the-quest.avif"
   },
@@ -310,6 +672,8 @@
     "journeyWord": null,
     "teamSize": null,
     "fee": null,
+    "spotFee": null,
+    "feeNote": null,
     "prize": null,
     "day": null,
     "time": null,

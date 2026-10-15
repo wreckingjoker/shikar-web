@@ -1,6 +1,7 @@
 import type { FestEvent } from '@/types/event';
 import { EventArt } from './EventArt';
 import { ChipLabel } from '@/components/ui/chip';
+import { formatTeamSize } from '@/lib/event-format';
 
 /**
  * Event banner card (Design.md §Components). Tall 3:4 image, sigil, Cinzel name, type,
@@ -18,7 +19,7 @@ export function EventCard({ event }: { event: FestEvent }) {
         <p className="text-sm text-secondary">{event.type}</p>
         <div className="mt-auto flex flex-wrap gap-2 pt-2">
           {event.journeyWord && <ChipLabel>{event.journeyWord}</ChipLabel>}
-          <ChipLabel>{event.teamSize ? `Team of ${event.teamSize}` : 'Team size TBA'}</ChipLabel>
+          <ChipLabel>{formatTeamSize(event)}</ChipLabel>
         </div>
       </div>
     </div>
