@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 /**
- * Finale — "Create one." The supplied artwork (strategists climbing the golden stair
- * toward the Shikhar city at sunrise) is the full-bleed background; an earlier version
+ * Finale — "Create one." The supplied artwork (strategists climbing the stone stair
+ * to the SCMS campus beneath a future skyline and clock) is the full-bleed background; an earlier version
  * hand-built a synthetic "Lamp" gold-beam effect (Claude.md §16 map) to stand in for real
  * art — now that this exists, the beams are retired in favour of the actual image, with a
  * deep-blue gradient wash so the headline stays legible over a bright sky.
@@ -25,9 +25,9 @@ export function Finale() {
           alt=""
           loading="lazy"
           decoding="async"
-          // Phones crop the wide art: shift right so the "SHIKHAR" sign on the city (~66%
-          // across) is centred in view instead of cut off at the edge.
-          className="h-full w-full object-cover object-[73%_50%] md:object-center"
+          // Portrait art (SCMS campus atop the stair, dark fade at the bottom): anchor
+          // toward the top so wide desktop crops keep the campus and clock in view.
+          className="h-full w-full object-cover object-[50%_35%] md:object-[50%_30%]"
         />
       </picture>
       <div
